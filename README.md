@@ -1,8 +1,10 @@
 # SenseFlow: Scaling Distribution Matching for Flow-based Text-to-Image Distillation
 
-[Xingtong Ge](https://xingtongge.github.io/), Xin Zhang, [Tongda Xu](https://tongdaxu.github.io/), [Yi Zhang](https://zhangyi-3.github.io/), [Xinjie Zhang](https://xinjie-q.github.io/), [Yan Wang](https://yanwang202199.github.io/), [Jun Zhang](https://eejzhang.people.ust.hk/)
+[Xingtong Ge](https://xingtongge.github.io/)<sup>1,2</sup>, Xin Zhang<sup>2</sup>, [Tongda Xu](https://tongdaxu.github.io/)<sup>3</sup>, [Yi Zhang](https://zhangyi-3.github.io/)<sup>4</sup>, [Xinjie Zhang](https://xinjie-q.github.io/)<sup>1</sup>, [Yan Wang](https://yanwang202199.github.io/)<sup>3</sup>, [Jun Zhang](https://eejzhang.people.ust.hk/)<sup>1</sup>
 
-Preprint, under review
+<sup>1</sup>HKUST, <sup>2</sup>SenseTime Research, <sup>3</sup>Tsinghua University, <sup>4</sup>CUHK MMLab  
+
+<!-- Preprint, under review -->
 
 ## Abstract
 
