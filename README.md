@@ -16,7 +16,7 @@ The Distribution Matching Distillation (DMD) has been successfully applied to te
 
 #### Stable Diffusion XL Comparison
 
-| Method           | NFE | FID-T ↓ | Patch FID-T ↓ | CLIP ↑ | HPSv2 ↑ | Pick ↑ | ImageReward ↑ |
+| Method           | NFE | FID-T | Patch FID-T | CLIP | HPSv2 | Pick | ImageReward |
 |------------------|--------|----------|----------------|--------|---------|---------|----------------|
 | SDXL             | 80     | --       | --             | 0.3293 | 0.2930  | 22.67   | 0.8719         |
 | LCM-SDXL         | 4      | 18.47    | 30.63          | 0.3230 | 0.2824  | 22.22   | 0.5693         |
@@ -29,7 +29,7 @@ The Distribution Matching Distillation (DMD) has been successfully applied to te
 
 #### Stable Diffusion 3.5 Comparison
 
-| Method               | NFE | FID-T ↓ | Patch FID-T ↓ | CLIP ↑ | HPSv2 ↑ | Pick ↑ | ImageReward ↑ |
+| Method               | NFE | FID-T | Patch FID-T | CLIP | HPSv2 | Pick | ImageReward |
 |----------------------|--------|----------|----------------|--------|---------|---------|----------------|
 | SD 3.5 Large         | 100    | --       | --             | 0.3310 | 0.2993  | 22.98   | 1.1629         |
 | SD 3.5 Large Turbo   | 4      | <u>13.58</u>  | 22.88          | 0.3262 | 0.2909  | 22.89   | 1.0116         |
@@ -38,7 +38,7 @@ The Distribution Matching Distillation (DMD) has been successfully applied to te
 
 #### FLUX Comparison
 
-| Method            | NFE ↓ | FID-T ↓ | Patch FID-T ↓ | CLIP ↑ | HPSv2 ↑ | Pick ↑ | ImageReward ↑ |
+| Method            | NFE | FID-T | Patch FID-T | CLIP | HPSv2 | Pick | ImageReward |
 |-------------------|--------|----------|----------------|--------|---------|---------|----------------|
 | FLUX.1 dev        | 50     | --       | --             | 0.3202 | 0.3000  | 23.18   | 1.1170         |
 | FLUX.1 dev        | 25     | --       | --             | 0.3207 | 0.2986  | 23.14   | 1.1063         |
