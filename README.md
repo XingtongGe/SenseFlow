@@ -4,11 +4,11 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Model-yellow)](https://huggingface.co/domiso/SenseFlow)
 
-[Xingtong Ge](https://xingtongge.github.io/)<sup>1,2</sup>, Xin Zhang<sup>2</sup>, [Tongda Xu](https://tongdaxu.github.io/)<sup>3</sup>, [Yi Zhang](https://zhangyi-3.github.io/)<sup>4</sup>, [Xinjie Zhang](https://xinjie-q.github.io/)<sup>1</sup>, [Yan Wang](https://yanwang202199.github.io/)<sup>3</sup>, [Jun Zhang](https://eejzhang.people.ust.hk/)<sup>1</sup>
+[Xingtong Ge](https://xingtongge.github.io/)<sup>1,2</sup>, Xin Zhang<sup>3</sup>, [Tongda Xu](https://tongdaxu.github.io/)<sup>4</sup>, [Yi Zhang](https://zhangyi-3.github.io/)<sup>3</sup>, [Xinjie Zhang](https://xinjie-q.github.io/)<sup>1</sup>, [Yan Wang](https://yanwang202199.github.io/)<sup>4</sup>, [Jun Zhang](https://eejzhang.people.ust.hk/)<sup>1</sup>\*
 
-<sup>1</sup>HKUST, <sup>2</sup>SenseTime Research, <sup>3</sup>Tsinghua University, <sup>4</sup>CUHK MMLab
+<sup>1</sup>The Hong Kong University of Science and Technology, <sup>2</sup>SenseTime Research, <sup>3</sup>Vivix AI, <sup>4</sup>Institute for AI Industry Research, Tsinghua University
 
-<!-- Preprint, under review -->
+The Fourteenth International Conference on Learning Representations (**ICLR**), 2026
 
 
 
