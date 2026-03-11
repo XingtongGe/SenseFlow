@@ -23,22 +23,18 @@ The Distribution Matching Distillation (DMD) has been successfully applied to te
 - [x] Single-node training scripts
 - [ ] Multi-node training scripts
 - [x] Inference scripts
-- [ ] Open-source model weights
+- [x] Open-source model weights
 
 ## 🤗 Model Weights
 
-We have open-sourced the **SenseFlow-FLUX** model weights on Hugging Face! 🎉
+We have open-sourced model weights on Hugging Face for the community. All models are available at: **[domiso/SenseFlow](https://huggingface.co/domiso/SenseFlow)**.
 
-### 📥 Download SenseFlow-FLUX
+### SenseFlow-FLUX (4–8 step generation)
 
-The SenseFlow-FLUX model (supports 4-8 step generation) is available at:
-- **Hugging Face Model**: [domiso/SenseFlow](https://huggingface.co/domiso/SenseFlow)
+- **Hugging Face**: [domiso/SenseFlow](https://huggingface.co/domiso/SenseFlow) (see `SenseFlow-FLUX/` folder)
+- Contents: DiT checkpoint (`.safetensors`), `config.json`
 
-The model includes:
-- `xxx.safetensors`: the DiT checkpoint
-- `config.json`: the config of DiT used in our model
-
-### 🚀 Quick Start with SenseFlow-FLUX
+**Quick Start:**
 
 1. Download the base FLUX.1-dev checkpoint to `Path/to/FLUX`
 2. Download SenseFlow-FLUX from Hugging Face and replace the transformer folder:
@@ -46,6 +42,13 @@ The model includes:
    # Replace Path/to/FLUX/transformer with SenseFlow-FLUX folder
    ```
 3. Use the model with diffusers (see [Hugging Face model card](https://huggingface.co/domiso/SenseFlow) for detailed usage examples)
+
+### SenseFlow SD 3.5 Large & Medium
+
+We release **SenseFlow SD 3.5 Large** and **SenseFlow SD 3.5 Medium** distilled weights for community use. Both support few-step text-to-image generation.
+
+- **Hugging Face**: [domiso/SenseFlow](https://huggingface.co/domiso/SenseFlow)
+- Download the corresponding SD 3.5 Large/Medium folders and follow the [model card](https://huggingface.co/domiso/SenseFlow) for usage with diffusers or this repo’s inference scripts.
 
 ## 💻 Installation
 
