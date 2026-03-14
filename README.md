@@ -96,123 +96,113 @@ We provide two methods to set up the environment: using conda with `environment.
 
 ## ⚙️ Setup
 
-Before training, you need to download the pretrained teacher models and configure the paths in the trainer files.
+Before training, you need to download the pretrained teacher models, prepare the dataset, and configure the paths in the corresponding **config YAML file**. All paths are managed in the `paths` section of each config file — no need to edit Python source code.
 
-### SDXL
+### Pretrained Models
 
-1. Download Stable Diffusion XL base model from HuggingFace:
-   ```bash
-   # Using huggingface-cli
-   huggingface-cli download stabilityai/stable-diffusion-xl-base-1.0 --local-dir /path/to/stable-diffusion-xl-base-1.0
-   ```
+#### SDXL
 
-2. Update the path in trainer files:
-   - Open `senseflow/trainer/trainer_sdxl_senseflow.py` or `senseflow/trainer/trainer_sdxl_DMD2.py`
-   - Replace `PLACEHOLDER_SDXL_PATH` with your local path to `stable-diffusion-xl-base-1.0`
+```bash
+huggingface-cli download stabilityai/stable-diffusion-xl-base-1.0 --local-dir /path/to/stable-diffusion-xl-base-1.0
+```
 
-### SD3.5 Medium
+#### SD3.5 Medium
 
-1. Download Stable Diffusion 3.5 Medium from HuggingFace:
-   ```bash
-   huggingface-cli download stabilityai/stable-diffusion-3.5-medium --local-dir /path/to/stable-diffusion-3.5-medium
-   ```
+```bash
+huggingface-cli download stabilityai/stable-diffusion-3.5-medium --local-dir /path/to/stable-diffusion-3.5-medium
+```
 
-2. Update the path in trainer file:
-   - Open `senseflow/trainer/trainer_sd35_senseflow.py`
-   - Replace `PLACEHOLDER_SD35_MEDIUM_PATH` with your local path to `stable-diffusion-3.5-medium`
+#### SD3.5 Large
 
-### SD3.5 Large
+```bash
+huggingface-cli download stabilityai/stable-diffusion-3.5-large --local-dir /path/to/stable-diffusion-3.5-large
+```
 
-1. Download Stable Diffusion 3.5 Large from HuggingFace:
-   ```bash
-   huggingface-cli download stabilityai/stable-diffusion-3.5-large --local-dir /path/to/stable-diffusion-3.5-large
-   ```
+#### FLUX
 
-2. Update the path in trainer file:
-   - Open `senseflow/trainer/trainer_sd35_large_senseflow.py`
-   - Replace `PLACEHOLDER_SD35_LARGE_PATH` with your local path to `stable-diffusion-3.5-large`
+```bash
+huggingface-cli download black-forest-labs/FLUX.1-dev --local-dir /path/to/FLUX.1-dev
+```
 
-### FLUX
+After downloading FLUX.1-dev, create symlinks for the transformer without guidance embedding:
 
-1. Download FLUX.1-dev from HuggingFace:
-   ```bash
-   huggingface-cli download black-forest-labs/FLUX.1-dev --local-dir /path/to/FLUX.1-dev
-   ```
+```bash
+mkdir -p exp_flux/flux-wo-guidance-embed/transformer
+cd exp_flux/flux-wo-guidance-embed/transformer
 
-2. Create a directory for FLUX without guidance embedding:
-   ```bash
-   mkdir -p exp_flux/flux-wo-guidance-embed/transformer
-   ```
+for file in /path/to/FLUX.1-dev/transformer/*; do
+    filename=$(basename "$file")
+    if [ "$filename" != "config.json" ]; then
+        ln -s "$file" "$filename"
+    fi
+done
+```
 
-3. Create symlinks for transformer files (all files except config.json, which uses a modified version):
-   ```bash
-   # Navigate to your SenseFlowCode directory
-   cd /path/to/SenseFlowCode/exp_flux/flux-wo-guidance-embed/transformer
-   
-   # Create symlinks for all files from FLUX.1-dev/transformer except config.json
-   for file in /path/to/FLUX.1-dev/transformer/*; do
-       filename=$(basename "$file")
-       if [ "$filename" != "config.json" ]; then
-           ln -s "$file" "$filename"
-       fi
-   done
-   ```
+The `config.json` with `guidance_embeds: false` is already provided in `exp_flux/flux-wo-guidance-embed/transformer/config.json`.
 
-4. The `config.json` with `guidance_embeds: false` is already provided in `exp_flux/flux-wo-guidance-embed/transformer/config.json`. This modified config file disables guidance embeddings for training.
+### Dataset Preparation
 
-5. Update the paths in trainer file:
-   - Open `senseflow/trainer/trainer_flux_senseflow.py`
-   - Replace `PLACEHOLDER_FLUX_PATH` with your local path to `FLUX.1-dev`
-   - Replace `PLACEHOLDER_FLUX_WO_GUIDANCE_EMBED_PATH` with the absolute path to `exp_flux/flux-wo-guidance-embed`
+**SDXL** uses LMDB datasets from [DMD2](https://huggingface.co/tianweiy/DMD2/tree/main/data/laion_vae_latents). Download the LMDB dataset files and note the local path.
 
-## 📊 Dataset Preparation
+**SD3.5 Medium/Large and FLUX** use text-image datasets with a JSON file:
 
-### SDXL Training (DMD2 and SenseFlow)
+```json
+{
+    "keys": ["00000000", "00000001", "00000002"],
+    "image_paths": [
+        "/path/to/images/00000000.png",
+        "/path/to/images/00000001.png",
+        "/path/to/images/00000002.png"
+    ],
+    "prompts": [
+        "A beautiful sunset over the ocean",
+        "A cat sitting on a windowsill",
+        "A modern city skyline at night"
+    ]
+}
+```
 
-For SDXL training, we use LMDB datasets from DMD2:
+**Important**: The three lists (`keys`, `image_paths`, `prompts`) must have the same length. Image paths should be absolute paths.
 
-1. Download the LMDB dataset from DMD2 HuggingFace repository:
-   ```bash
-   # Navigate to: https://huggingface.co/tianweiy/DMD2/tree/main/data/laion_vae_latents
-   # Download the LMDB dataset files
-   ```
+### Path Configuration
 
-2. Update the dataset path in trainer files:
-   - Open `senseflow/trainer/trainer_sdxl_senseflow.py` or `senseflow/trainer/trainer_sdxl_DMD2.py`
-   - Replace `PLACEHOLDER_LMDB_DATASET_PATH` with your local path to the LMDB dataset directory
+All paths are configured in the `paths` section of each config YAML file. Edit the corresponding config file before training:
 
-### SD3.5 Medium/Large and FLUX Training
+**SDXL SenseFlow** (`configs/sdxl/sdxl_senseflow.yaml`):
+```yaml
+paths:
+  pretrained_model: /path/to/stable-diffusion-xl-base-1.0
+  dataset: /path/to/lmdb_dataset
+```
 
-For SD3.5 and FLUX training, we use text-image datasets with a JSON file format.
+**SDXL DMD2** (`configs/sdxl/sdxl_dmd2.yaml`):
+```yaml
+paths:
+  pretrained_model: /path/to/stable-diffusion-xl-base-1.0
+  dataset: /path/to/lmdb_dataset
+```
 
-1. Prepare your dataset JSON file with the following structure:
-   ```json
-   {
-       "keys": ["00000000", "00000001", "00000002", ...],
-       "image_paths": [
-           "/path/to/images/00000000.png",
-           "/path/to/images/00000001.png",
-           "/path/to/images/00000002.png",
-           ...
-       ],
-       "prompts": [
-           "A beautiful sunset over the ocean",
-           "A cat sitting on a windowsill",
-           "A modern city skyline at night",
-           ...
-       ]
-   }
-   ```
-   
-   **Important**: The three lists (`keys`, `image_paths`, `prompts`) must have the same length, and each index corresponds to one sample.
+**SD3.5 Medium** (`configs/SD35/sd35_senseflow.yaml`):
+```yaml
+paths:
+  pretrained_model: /path/to/stable-diffusion-3.5-medium
+  dataset: /path/to/dataset.json
+```
 
-2. Update the dataset path in trainer files:
-   - For SD3.5 Medium: Open `senseflow/trainer/trainer_sd35_senseflow.py`
-   - For SD3.5 Large: Open `senseflow/trainer/trainer_sd35_large_senseflow.py`
-   - For FLUX: Open `senseflow/trainer/trainer_flux_senseflow.py`
-   - Replace `PLACEHOLDER_JSON_DATASET_PATH` with your local path to the JSON file
+**SD3.5 Large** (`configs/SD35/sd35_large_senseflow.yaml`):
+```yaml
+paths:
+  pretrained_model: /path/to/stable-diffusion-3.5-large
+  dataset: /path/to/dataset.json
+```
 
-3. Ensure image paths in the JSON file are absolute paths or paths relative to where you run the training script.
+**FLUX** (`configs/FLUX/flux_senseflow.yaml`):
+```yaml
+paths:
+  pretrained_model: /path/to/FLUX.1-dev
+  flux_wo_guidance_embed: exp_flux/flux-wo-guidance-embed
+  dataset: /path/to/dataset.json
+```
 
 ## 🏋️ Training
 
@@ -259,7 +249,7 @@ sh exp_sd35/train_SD35_senseflow.sh \
 ```bash
 sh exp_sd35/train_SD35_large_senseflow.sh \
     1 8 \
-    configs/SD35/sd35_senseflow.yaml \
+    configs/SD35/sd35_large_senseflow.yaml \
     /path/to/save/directory
 ```
 

@@ -1,6 +1,7 @@
 import importlib
 
 import torch
+from torch.utils.checkpoint import checkpoint as checkpoint_torch
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
@@ -17,6 +18,23 @@ from queue import Queue
 
 from inspect import isfunction
 from PIL import Image, ImageDraw, ImageFont
+
+
+def checkpoint(func, inputs, params, flag):
+    """
+    Evaluate a function without caching intermediate activations, allowing for
+    reduced memory at the expense of extra compute in the backward pass.
+    :param func: the function to evaluate.
+    :param inputs: the argument sequence to pass to `func`.
+    :param params: a sequence of parameters `func` depends on but does not
+                   explicitly take as arguments.
+    :param flag: if False, disable gradient checkpointing.
+    """
+    if flag:
+        args = tuple(inputs)
+        return checkpoint_torch(func, *args)
+    else:
+        return func(*inputs)
 
 
 def log_txt_as_img(wh, xc, size=10):

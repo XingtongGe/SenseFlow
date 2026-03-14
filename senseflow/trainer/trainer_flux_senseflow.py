@@ -320,10 +320,8 @@ class Trainer(object):
             pin_memory: bool = False,
             persistent_workers: bool = True,
             ):
-        # TODO: Replace PLACEHOLDER_JSON_DATASET_PATH with your local path to the dataset JSON file
-        # The JSON file should contain 'keys', 'image_paths', and 'prompts' fields
-        # See README for the required JSON file structure
-        self.real_dataset = LaionText2ImageDataset(json_path='PLACEHOLDER_JSON_DATASET_PATH', repeat=1)
+        dataset_path = self.config["paths"]["dataset"]
+        self.real_dataset = LaionText2ImageDataset(json_path=dataset_path, repeat=1)
         sampler = DistributedSampler(self.real_dataset, num_replicas=self.world_size, rank=self.local_rank, shuffle=True)
         denoising_dataloader = DataLoader(
             self.real_dataset,
@@ -351,13 +349,8 @@ class Trainer(object):
         
         from argparse import Namespace
         args = Namespace()
-        # TODO: Replace PLACEHOLDER_FLUX_PATH with your local path to FLUX.1-dev
-        # Download from HuggingFace: https://huggingface.co/black-forest-labs/FLUX.1-dev
-        args.pretrained_teacher_model = 'PLACEHOLDER_FLUX_PATH'
-        # TODO: Replace PLACEHOLDER_FLUX_WO_GUIDANCE_EMBED_PATH with your local path to flux-wo-guidance-embed
-        # After downloading FLUX.1-dev, create symlinks in exp_flux/flux-wo-guidance-embed/transformer/
-        # See README for detailed instructions
-        args.flux_wo_guidance_embed = 'PLACEHOLDER_FLUX_WO_GUIDANCE_EMBED_PATH'
+        args.pretrained_teacher_model = self.config["paths"]["pretrained_model"]
+        args.flux_wo_guidance_embed = self.config["paths"]["flux_wo_guidance_embed"]
         args.revision = None
         args.variant = None
         args.pretrained_vae_model_name_or_path = None

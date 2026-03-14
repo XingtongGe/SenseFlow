@@ -15,7 +15,7 @@ from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 
 from .vfmgan_utils import make_vit_backbone, forward_vit
 from .diffaug import DiffAugment
-from ldm.modules.diffusionmodules.util import checkpoint
+from senseflow.utils import checkpoint
 from torch_utils.ops import bias_act
 
 from typing import Callable
@@ -280,7 +280,10 @@ class DiscHeadPlus(nn.Module):
             self.cls = SpectralConv1d(channels, 1, kernel_size=1, padding=0)
         
         if self.useatt:
-            from ldm.modules.attention import BasicTransformerBlock
+            raise NotImplementedError(
+                "useatt=True requires BasicTransformerBlock which is not included in the open-source release. "
+                "All default training configs use useatt=False."
+            )
             cc = 64
             self.att_block = BasicTransformerBlock(dim=cc, d_head=16, n_heads=cc // 16, dropout=0., context_dim=cc, checkpoint=False)
 

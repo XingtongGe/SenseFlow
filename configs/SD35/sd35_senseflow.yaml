@@ -1,3 +1,7 @@
+paths:
+  pretrained_model: /path/to/stable-diffusion-3.5-medium
+  dataset: /path/to/dataset.json
+
 optimizer:
   beta1: 0.9
   beta2: 0.999

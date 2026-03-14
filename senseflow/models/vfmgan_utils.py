@@ -31,7 +31,7 @@ from typing import Callable
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from ldm.modules.diffusionmodules.util import checkpoint
+from senseflow.utils import checkpoint
 
 
 class AddReadout(nn.Module):

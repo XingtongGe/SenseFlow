@@ -6,4 +6,4 @@ PYTHONFAULTHANDLER=True \
 torchrun \
 --nproc_per_node $2 \
 --nnodes $1 \
-main_trainer_sd35_large_senseflow.py $3 $4
+main_trainer_sd35_large_senseflow.py --config_path $3 --save_path $4

@@ -199,10 +199,9 @@ class Trainer(object):
         pin_memory: bool = False,
         persistent_workers: bool = True,
     ):
-        # TODO: Replace PLACEHOLDER_LMDB_DATASET_PATH with your local path to the LMDB dataset
-        # Download from DMD2 HuggingFace: https://huggingface.co/tianweiy/DMD2/tree/main/data/laion_vae_latents
+        dataset_path = self.config["paths"]["dataset"]
         self.real_dataset = SDImageDatasetLMDBwoTokenizer(
-                dataset_path='PLACEHOLDER_LMDB_DATASET_PATH'
+                dataset_path=dataset_path
             )
         sampler = DistributedSampler(self.real_dataset, num_replicas=self.world_size, rank=self.local_rank, shuffle=True)
         real_dataloader = DataLoader(
@@ -234,8 +233,7 @@ class Trainer(object):
         # text encoder
         # generator / student
         # guidance model
-        assert "model" in self.config, "config does not contain key 'model'"
-        model_config = self.config["model"]
+        model_config = self.config.get("model", {})
         
         # from DMD2 code
         self.backward_simulation = False
@@ -252,9 +250,7 @@ class Trainer(object):
         # sdxl configs and ckpt paths
         from argparse import Namespace
         args = Namespace()
-        # TODO: Replace PLACEHOLDER_SDXL_PATH with your local path to stable-diffusion-xl-base-1.0
-        # Download from HuggingFace: https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
-        args.pretrained_teacher_model = 'PLACEHOLDER_SDXL_PATH'
+        args.pretrained_teacher_model = self.config["paths"]["pretrained_model"]
         args.teacher_revision = None
         args.pretrained_vae_model_name_or_path = None 
         args.pretrained_unet_lcm_path = None

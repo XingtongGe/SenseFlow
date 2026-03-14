@@ -272,10 +272,8 @@ class Trainer(object):
             pin_memory: bool = False,
             persistent_workers: bool = True,
             ):
-        # TODO: Replace PLACEHOLDER_JSON_DATASET_PATH with your local path to the dataset JSON file
-        # The JSON file should contain 'keys', 'image_paths', and 'prompts' fields
-        # See README for the required JSON file structure
-        self.real_dataset = LaionText2ImageDataset(json_path='PLACEHOLDER_JSON_DATASET_PATH', repeat=1)
+        dataset_path = self.config["paths"]["dataset"]
+        self.real_dataset = LaionText2ImageDataset(json_path=dataset_path, repeat=1)
         sampler = DistributedSampler(self.real_dataset, num_replicas=self.world_size, rank=self.local_rank, shuffle=True)
         denoising_dataloader = DataLoader(
             self.real_dataset,
@@ -306,9 +304,7 @@ class Trainer(object):
         # sdxl configs and ckpt paths
         from argparse import Namespace
         args = Namespace()
-        # TODO: Replace PLACEHOLDER_SD35_LARGE_PATH with your local path to stable-diffusion-3.5-large
-        # Download from HuggingFace: https://huggingface.co/stabilityai/stable-diffusion-3.5-large
-        args.pretrained_teacher_model = 'PLACEHOLDER_SD35_LARGE_PATH'
+        args.pretrained_teacher_model = self.config["paths"]["pretrained_model"]
         args.teacher_revision = None
         args.variant = None
         args.pretrained_vae_model_name_or_path = None

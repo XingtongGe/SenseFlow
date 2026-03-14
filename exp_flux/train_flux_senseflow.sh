@@ -3,7 +3,7 @@ filename=$(basename $work_path)
 T=$(date +%m%d%H%M)
 OMP_NUM_THREADS=1 \
 PYTHONFAULTHANDLER=True \
-torchrun \
+python -m torch.distributed.launch \
 --nproc_per_node $2 \
 --nnodes $1 \
-main_trainer_flux_senseflow.py $3 $4
+main_trainer_flux_senseflow.py --config_path $3 --save_path $4

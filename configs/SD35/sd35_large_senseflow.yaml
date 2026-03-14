@@ -1,6 +1,5 @@
 paths:
-  pretrained_model: /path/to/FLUX.1-dev
-  flux_wo_guidance_embed: exp_flux/flux-wo-guidance-embed
+  pretrained_model: /path/to/stable-diffusion-3.5-large
   dataset: /path/to/dataset.json
 
 optimizer:
@@ -13,13 +12,13 @@ lr_scheduler:
   target: senseflow.lr_scheduler.LambdaWarmUpConstantScheduler
   params:
     warm_up_steps: 500
-    lr_min: 5.0e-6
-    lr_max: 1.0e-5
-    lr_start: 5.0e-6
+    lr_min: 1.0e-6
+    lr_max: 1.0e-6
+    lr_start: 1.0e-6
     verbosity_interval: 200
 
 train:
   iter_num: 1000000
-  save_interval: 1500
+  save_interval: 3000
   seed: 71801
   log_interval: 10
